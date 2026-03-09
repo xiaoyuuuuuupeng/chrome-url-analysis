@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智能书签管理器 - 设置</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <div class="header-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M5 3h14a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2z" fill="url(#og)"/>
+          <defs>
+            <linearGradient id="og" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <h1>智能书签管理器</h1>
+        <p class="header-sub">配置大模型 API 以启用智能分类</p>
+      </div>
+    </header>
+
+    <main class="options-main">
+      <section class="section">
+        <h2 class="section-title">API 配置</h2>
+        <p class="section-desc">支持 OpenAI、DeepSeek、通义千问等兼容 OpenAI 格式的 API。</p>
+
+        <div class="form-group">
+          <label for="apiBaseUrl">API Base URL</label>
+          <input type="url" id="apiBaseUrl" placeholder="https://api.openai.com/v1" autocomplete="off" />
+          <span class="form-hint">例如：https://api.openai.com/v1 或 https://api.deepseek.com/v1</span>
+        </div>
+
+        <div class="form-group">
+          <label for="apiKey">API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-xxxxxxxxxxxxxxxx" autocomplete="off" />
+          <span class="form-hint">请妥善保管，仅存储在本地，不会上传到任何服务器。</span>
+        </div>
+
+        <div class="form-group">
+          <label for="modelName">模型名称</label>
+          <input type="text" id="modelName" placeholder="gpt-4o-mini" autocomplete="off" />
+          <span class="form-hint">如 gpt-4o-mini、deepseek-chat、qwen-turbo 等</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="maxCategories">分类数量上限</label>
+            <input type="number" id="maxCategories" min="3" max="30" value="10" />
+          </div>
+          <div class="form-group">
+            <label for="rootFolderName">根文件夹名称</label>
+            <input type="text" id="rootFolderName" placeholder="AI分类书签" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="btnTest">测试连接</button>
+          <button type="button" class="btn-primary" id="btnSave">保存设置</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">分类选项</h2>
+        <label class="checkbox-row">
+          <input type="checkbox" id="classifyAll" />
+          <span class="checkbox-custom"></span>
+          <span>对全部书签重新分类（包括已在文件夹中的书签）</span>
+        </label>
+      </section>
+
+      <div class="status-area" id="statusArea" style="display:none">
+        <span class="status-icon" id="statusIcon"></span>
+        <span class="status-text" id="statusText"></span>
+      </div>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
