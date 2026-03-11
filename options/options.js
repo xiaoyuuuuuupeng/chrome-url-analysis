@@ -17,6 +17,7 @@ async function loadSettings() {
       maxCategories: 10,
       rootFolderName: 'AI分类书签',
       classifyAll: false,
+      searchEngineUrl: 'https://cn.bing.com/search?q={q}',
     }, resolve);
   });
 
@@ -25,6 +26,7 @@ async function loadSettings() {
   document.getElementById('modelName').value = data.modelName || '';
   document.getElementById('maxCategories').value = data.maxCategories || 10;
   document.getElementById('rootFolderName').value = data.rootFolderName || 'AI分类书签';
+  document.getElementById('searchEngineUrl').value = data.searchEngineUrl || 'https://cn.bing.com/search?q={q}';
   document.getElementById('classifyAll').checked = !!data.classifyAll;
 }
 
@@ -36,6 +38,7 @@ async function saveSettings() {
     maxCategories: Math.min(30, Math.max(3, parseInt(document.getElementById('maxCategories').value, 10) || 10)),
     rootFolderName: document.getElementById('rootFolderName').value.trim() || 'AI分类书签',
     classifyAll: document.getElementById('classifyAll').checked,
+    searchEngineUrl: document.getElementById('searchEngineUrl').value.trim() || 'https://cn.bing.com/search?q={q}',
   };
 
   await new Promise(resolve => chrome.storage.sync.set(config, resolve));

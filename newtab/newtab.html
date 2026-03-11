@@ -3,47 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>智能书签管理器</title>
+  <title>Toast · 可爱的书签小助手</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Varela+Round&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="newtab.css" />
 </head>
-<body>
+<body id="bodyEl">
   <!-- Background decoration -->
   <div class="bg-orb bg-orb-1"></div>
   <div class="bg-orb bg-orb-2"></div>
   <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-orb bg-orb-4"></div>
 
   <!-- Header -->
-  <header class="header">
+  <header class="header" id="headerEl">
     <div class="header-left">
       <div class="logo">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <path d="M5 3h14a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2z" fill="url(#logo-grad)" stroke="none"/>
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="10" width="24" height="16" rx="4" fill="url(#toast-grad)" stroke="url(#toast-stroke)" stroke-width="1.5"/>
+          <ellipse cx="16" cy="14" rx="8" ry="3" fill="rgba(255,255,255,0.4)"/>
           <defs>
-            <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#a5b4fc"/>
-              <stop offset="100%" stop-color="#c084fc"/>
+            <linearGradient id="toast-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22d3ee"/>
+              <stop offset="50%" stop-color="#06b6d4"/>
+              <stop offset="100%" stop-color="#0891b2"/>
+            </linearGradient>
+            <linearGradient id="toast-stroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#67e8f9"/>
+              <stop offset="100%" stop-color="#0e7490"/>
             </linearGradient>
           </defs>
         </svg>
       </div>
       <div>
-        <h1 class="header-title">智能书签</h1>
+        <h1 class="header-title">Toast</h1>
         <p class="header-subtitle" id="bookmarkCount">加载中...</p>
       </div>
     </div>
     <div class="header-center">
-      <div class="search-wrapper">
+      <div class="search-tabs">
+        <button type="button" class="search-tab active" id="searchTabWeb">搜索网页</button>
+        <button type="button" class="search-tab" id="searchTabBookmark">搜索收藏夹</button>
+      </div>
+      <form class="search-wrapper" id="searchForm">
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="搜索书签标题或网址..." autocomplete="off" />
+        <input type="text" id="searchInput" class="search-input" placeholder="搜索网页..." autocomplete="off" />
         <kbd class="search-shortcut">⌘K</kbd>
-      </div>
+      </form>
     </div>
     <div class="header-right">
+      <button class="btn-theme" id="themeToggle" title="切换白天/黑夜模式">
+        <svg id="themeIconDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg id="themeIconLight" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+          <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+      <button class="btn-icon" id="layoutToggle" title="切换布局（居中/紧凑）">
+        <svg id="layoutIconCompact" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        <svg id="layoutIconCentered" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+          <rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
       <button class="btn-icon" id="viewToggle" title="切换视图">
         <svg id="gridIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
@@ -64,11 +92,9 @@
     </div>
   </header>
 
-  <!-- Filter Bar -->
-  <div class="filter-bar">
-    <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" data-folder="all">全部</button>
-    </div>
+  <!-- Filter Bar（仅进入收藏夹后显示） -->
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-tabs" id="filterTabs"></div>
     <div class="filter-right">
       <span class="result-count" id="resultCount"></span>
     </div>
@@ -76,24 +102,44 @@
 
   <!-- Main Content -->
   <main class="main-content" id="mainContent">
+    <div class="folder-breadcrumb" id="folderBreadcrumb" style="display:none">
+      <a href="#" id="breadcrumbRoot">收藏夹</a>
+      <span id="breadcrumbPath"></span>
+    </div>
+    <div class="folder-view-content" id="folderViewContent" style="display:none">
+      <div class="landing-section" id="subfoldersSection" style="display:none">
+        <h2 class="landing-section-title">子收藏夹</h2>
+        <div class="folders-grid" id="subfoldersGrid"></div>
+      </div>
+    </div>
     <div class="loading-state" id="loadingState">
       <div class="spinner"></div>
       <p>正在加载书签...</p>
     </div>
     <div class="empty-state" id="emptyState" style="display:none">
       <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
-        <path d="M5 3h14a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2z"/>
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
       </svg>
       <p class="empty-title">暂无书签</p>
       <p class="empty-desc" id="emptyDesc">还没有保存任何书签</p>
+    </div>
+    <div class="landing-section landing-folders" id="landingFoldersWrap" style="display:none">
+      <h2 class="landing-section-title">收藏夹</h2>
+      <div class="folders-grid" id="foldersGrid"></div>
+    </div>
+    <div class="landing-section landing-top-urls" id="topLevelBookmarksWrap" style="display:none">
+      <h2 class="landing-section-title">直接收藏的链接</h2>
+      <p class="landing-section-desc">以下链接直接放在书签栏 / 其他书签下，未放入子文件夹</p>
+      <div class="top-level-bookmarks" id="topLevelBookmarks"></div>
     </div>
     <div class="bookmarks-grid" id="bookmarksGrid" style="display:none"></div>
     <div class="bookmarks-list" id="bookmarksList" style="display:none"></div>
   </main>
 
-  <!-- Toast -->
+  <!-- Toast 提示 -->
   <div class="toast" id="toast"></div>
 
+  <script src="../icons/folder-icons.js"></script>
   <script src="newtab.js"></script>
 </body>
 </html>
